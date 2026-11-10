@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAF EMT Level 1 - Arresting of Haemorrhage Quiz</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            safRed: '#dc2626',
+            safDarkRed: '#991b1b',
+            safNavy: '#0f172a',
+            safMedical: '#0284c7',
+            safMedicalDark: '#0369a1'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between antialiased selection:bg-red-500 selection:text-white">
+
+  <!-- Header Banner -->
+  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-red-600 text-white p-2.5 rounded-lg shadow flex items-center justify-center">
+          <i class="fa-solid font-bold fa-kit-medical text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white tracking-wide uppercase">SAF EMT Level 1 Assessment</h1>
+          <p class="text-xs text-slate-400 font-medium">Topic: Arresting of Haemorrhage</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <!-- Google Sheets Integration Config Button -->
+        <button onclick="quizApp.openWebhookModal()" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-table text-emerald-400"></i>
+          <span class="hidden sm:inline">Google Sheets Setup</span>
+        </button>
+        <div id="header-stats" class="hidden sm:flex items-center space-x-4 text-xs font-semibold text-slate-300">
+          <div class="bg-slate-700/60 px-3 py-1.5 rounded-md border border-slate-600 flex items-center space-x-2">
+            <i class="fa-regular fa-clock text-red-400"></i>
+            <span id="timer-display">00:00</span>
+          </div>
+          <div class="bg-slate-700/60 px-3 py-1.5 rounded-md border border-slate-600 flex items-center space-x-2">
+            <i class="fa-solid fa-list-check text-blue-400"></i>
+            <span id="progress-text">1 / 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+    
+    <!-- START SCREEN -->
+    <section id="start-screen" class="bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl text-center max-w-2xl mx-auto w-full transition-all">
+      <div class="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+        <i class="fa-solid fa-heart-pulse animate-pulse"></i>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Arresting of Haemorrhage Quiz</h2>
+      <p class="text-slate-300 text-xs sm:text-sm mb-6 leading-relaxed">
+        Test your knowledge on essential haemorrhage control interventions, tourniquet usage, junctional wound treatment, and shock recognition.
+      </p>
+
+      <!-- Candidate Particulars Form -->
+      <form id="candidate-form" onsubmit="event.preventDefault(); quizApp.startQuiz();" class="text-left bg-slate-900/70 p-5 rounded-xl border border-slate-700/80 mb-6 space-y-4">
+        <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center space-x-2">
+          <i class="fa-solid fa-id-card"></i>
+          <span>Trainee Particulars (Required)</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs text-slate-300 font-medium mb-1" for="user-rank">Rank *</label>
+            <select id="user-rank" required class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <option value="" disabled selected>Select Rank</option>
+              <option value="REC">REC</option>
+              <option value="PTE">PTE</option>
+              <option value="LCP">LCP</option>
+              <option value="CPL">CPL</option>
+              <option value="CFC">CFC</option>
+              <option value="3SG">3SG</option>
+              <option value="2SG">2SG</option>
+              <option value="1SG">1SG</option>
+              <option value="SSG">SSG</option>
+              <option value="MSG">MSG</option>
+              <option value="2LT">2LT</option>
+              <option value="LTA">LTA</option>
+              <option value="CPT">CPT</option>
+              <option value="CIV">CIVILIAN / OTHER</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-slate-300 font-medium mb-1" for="user-name">Full Name *</label>
+            <input type="text" id="user-name" required placeholder="e.g. John Tan" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-300 font-medium mb-1" for="user-unit">Unit / Vocation *</label>
+            <input type="text" id="user-unit" required placeholder="e.g. 1 Medical Bn" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          </div>
+        </div>
+
+        <!-- Webhook Status Indicator -->
+        <div class="pt-2 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+          <span class="flex items-center space-x-1.5">
+            <span id="webhook-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span id="webhook-status-text">Sheets Integration: Using Local Storage / Manual CSV</span>
+          </span>
+          <button type="button" onclick="quizApp.openWebhookModal()" class="text-sky-400 hover:underline">Configure Apps Script</button>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold rounded-xl shadow-lg hover:shadow-red-900/40 transition-all duration-200 text-base inline-flex items-center justify-center space-x-2 mt-2">
+          <span>Begin Knowledge Evaluation</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Assessment Summary Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+          <p class="text-xs text-slate-400">Total Questions</p>
+          <p class="text-base font-bold text-white">10 MCQs</p>
+        </div>
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+          <p class="text-xs text-slate-400">Total Marks</p>
+          <p class="text-base font-bold text-white">10 Points</p>
+        </div>
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+          <p class="text-xs text-slate-400">Passing Standard</p>
+          <p class="text-base font-bold text-emerald-400">80% (8/10)</p>
+        </div>
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60">
+          <p class="text-xs text-slate-400">Data Analytics</p>
+          <p class="text-base font-bold text-sky-400">Auto Export</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ CONTAINER -->
+    <section id="quiz-screen" class="hidden flex-col space-y-6">
+      
+      <!-- Top Bar: Progress and Navigation Quick Access -->
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-md">
+        <div class="flex justify-between items-center text-xs font-semibold text-slate-400 mb-2">
+          <span id="question-count-label">Question 1 of 10</span>
+          <span id="completion-percentage">0% Completed</span>
+        </div>
+        <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-red-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Question Dots Quick Navigation -->
+        <div id="dots-container" class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-700/60 justify-center">
+          <!-- Dots injected dynamically -->
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="bg-slate-800 rounded-2xl p-5 sm:p-8 border border-slate-700 shadow-xl relative overflow-hidden">
+        <!-- Scenario badge if applicable -->
+        <div id="scenario-badge" class="hidden mb-3 inline-flex items-center space-x-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold rounded-md">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>SCENARIO BASED QUESTION</span>
+        </div>
+
+        <h3 id="question-text" class="text-lg sm:text-xl font-bold text-white mb-6 leading-snug">
+          <!-- Question text injected here -->
+        </h3>
+
+        <!-- Options List -->
+        <div id="options-container" class="space-y-3">
+          <!-- Options injected dynamically -->
+        </div>
+
+        <!-- Instant Explanation Feedback Box -->
+        <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl border text-sm leading-relaxed transition-all duration-300">
+          <div class="flex items-center space-x-2 font-bold mb-1" id="feedback-title">
+            <!-- Correct/Incorrect header -->
+          </div>
+          <p id="feedback-text" class="text-slate-300"></p>
+        </div>
+      </div>
+
+      <!-- Footer Navigation Controls -->
+      <div class="flex justify-between items-center gap-3">
+        <button id="prev-btn" onclick="quizApp.prevQuestion()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700 text-slate-200 font-semibold rounded-xl text-sm transition flex items-center space-x-2">
+          <i class="fa-solid fa-chevron-left"></i>
+          <span>Previous</span>
+        </button>
+
+        <div class="flex space-x-2">
+          <button id="next-btn" onclick="quizApp.nextQuestion()" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center space-x-2">
+            <span>Next</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          
+          <button id="submit-btn" onclick="quizApp.confirmSubmit()" class="hidden px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center space-x-2">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Submit Quiz</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS SCREEN -->
+    <section id="results-screen" class="hidden bg-slate-800 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <div id="score-icon-box" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg border">
+          <!-- Dynamic Score Icon -->
+        </div>
+        <h2 id="result-title" class="text-2xl sm:text-3xl font-extrabold text-white mb-1">Evaluation Completed</h2>
+        <p id="candidate-display-tag" class="text-sky-400 font-semibold text-sm mb-1"></p>
+        <p id="result-subtitle" class="text-slate-400 text-xs">SAF EMT Level 1: Arresting of Haemorrhage</p>
+
+        <!-- Status Alert for Google Sheets Submission -->
+        <div id="submission-status-alert" class="mt-4 p-3 rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 border hidden"></div>
+
+        <!-- Score Summary Cards -->
+        <div class="grid grid-cols-3 gap-3 my-6">
+          <div class="bg-slate-900/80 p-3 sm:p-4 rounded-xl border border-slate-700">
+            <span class="text-xs text-slate-400 block font-medium">Final Score</span>
+            <span id="final-score" class="text-xl sm:text-2xl font-black text-white">0 / 10</span>
+          </div>
+          <div class="bg-slate-900/80 p-3 sm:p-4 rounded-xl border border-slate-700">
+            <span class="text-xs text-slate-400 block font-medium">Percentage</span>
+            <span id="final-percentage" class="text-xl sm:text-2xl font-black text-sky-400">0%</span>
+          </div>
+          <div class="bg-slate-900/80 p-3 sm:p-4 rounded-xl border border-slate-700">
+            <span class="text-xs text-slate-400 block font-medium">Time Taken</span>
+            <span id="time-taken" class="text-xl sm:text-2xl font-black text-slate-200">00:00</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center gap-3">
+          <button onclick="quizApp.downloadCSV()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-sm transition inline-flex items-center space-x-2 shadow">
+            <i class="fa-solid fa-file-csv"></i>
+            <span>Export Result CSV</span>
+          </button>
+          <button onclick="quizApp.restartQuiz()" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl text-sm transition inline-flex items-center space-x-2">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Retake Assessment</span>
+          </button>
+          <button onclick="quizApp.toggleReview()" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl text-sm transition inline-flex items-center space-x-2">
+            <i class="fa-solid fa-file-signature"></i>
+            <span>Review Answers</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Answer Review Section -->
+      <div id="review-section" class="border-t border-slate-700 pt-8 mt-6 space-y-6">
+        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i class="fa-solid fa-clipboard-check text-red-500"></i>
+          <span>Detailed Answer Key & Review</span>
+        </h3>
+        
+        <div id="review-list" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- GOOGLE SHEETS SETUP MODAL -->
+  <div id="webhook-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 text-left max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i class="fa-solid fa-table-cells text-emerald-400"></i>
+          <span>Google Sheets Apps Script Integration</span>
+        </h3>
+        <button onclick="quizApp.closeWebhookModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-300">
+        To automatically collect quiz results into your Google Sheet for analysis, follow these 3 simple steps:
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+          <p class="font-bold text-sky-400 mb-1">Step 1: Open Google Sheets Apps Script</p>
+          <p class="text-slate-400 mb-2">Create a new Google Sheet, click <strong class="text-slate-200">Extensions > Apps Script</strong>, and paste the code below:</p>
+          <pre class="bg-slate-950 p-3 rounded text-emerald-400 font-mono text-[11px] overflow-x-auto select-all">
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      "Timestamp", "Rank", "Name", "Unit", "Score", 
+      "Percentage", "Time Taken", "Passed", "Detailed Answers"
+    ]);
+  }
+  
+  sheet.appendRow([
+    data.timestamp,
+    data.rank,
+    data.name,
+    data.unit,
+    data.score,
+    data.percentage + "%",
+    data.timeTaken,
+    data.passed ? "PASSED" : "FAILED",
+    JSON.stringify(data.answers)
+  ]);
+  
+  return ContentService.createTextOutput(JSON.stringify({"result": "success"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+        </div>
+
+        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+          <p class="font-bold text-sky-400 mb-1">Step 2: Deploy as Web App</p>
+          <p class="text-slate-400">Click <strong class="text-slate-200">Deploy > New Deployment</strong>. Choose type <strong class="text-slate-200">Web App</strong>. Set <em>Execute as: Me</em> and <em>Who has access: Anyone</em>. Click Deploy and copy the Web App URL.</p>
+        </div>
+
+        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700">
+          <label class="font-bold text-sky-400 block mb-1" for="webhook-url-input">Step 3: Paste Google Apps Script Web App URL</label>
+          <input type="url" id="webhook-url-input" placeholder="https://script.google.com/macros/s/AKfycbx.../exec" class="w-full bg-slate-800 border border-slate-600 rounded px-3 py-2 text-white font-mono text-xs focus:ring-2 focus:ring-sky-500 outline-none">
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 border-t border-slate-700">
+        <button onclick="quizApp.saveWebhookUrl()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs transition">
+          Save & Enable Integration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-slate-800 text-center py-4 px-4 text-xs text-slate-500">
+    <p>SAF EMT Level 1 Training Assessment Module • Haemorrhage Control Standard Protocol</p>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    const quizData = [
+      {
+        id: 1,
+        question: "A casualty presents with external bleeding from a wound. Which intervention is an appropriate basic method of haemorrhage control?",
+        options: [
+          "Apply firm direct pressure",
+          "Give oral fluids",
+          "Apply ice directly into the wound",
+          "Elevate the casualty and observe"
+        ],
+        correct: 0, // A
+        explanation: "Direct pressure is a fundamental method of external haemorrhage control. Catastrophic extremity haemorrhage may require rapid tourniquet application depending on the injury and applicable EMT protocol."
+      },
+      {
+        id: 2,
+        question: "Which finding should make an EMT MOST concerned about life-threatening haemorrhage?",
+        options: [
+          "Minor bleeding from a superficial abrasion",
+          "Small blood stain on a dressing that has stopped enlarging",
+          "Rapid continuous bleeding with pooling of blood",
+          "Mild bruising around an injury"
+        ],
+        correct: 2, // C
+        explanation: "Rapid, ongoing blood loss can quickly compromise circulating blood volume and produce haemorrhagic shock."
+      },
+      {
+        id: 3,
+        question: "A casualty has life-threatening haemorrhage from an extremity that is suitable for tourniquet placement. Which intervention is indicated?",
+        options: [
+          "Apply a tourniquet",
+          "Apply ice to the limb",
+          "Elevate the extremity only",
+          "Wait for spontaneous clot formation"
+        ],
+        correct: 0, // A
+        explanation: "An extremity wound that is amenable to tourniquet placement is an indication for tourniquet application."
+      },
+      {
+        id: 4,
+        question: "A casualty has severe haemorrhage from a junctional wound that cannot be treated effectively with an extremity tourniquet. What is the MOST appropriate haemorrhage-control approach?",
+        options: [
+          "Apply an extremity tourniquet directly over the wound",
+          "Apply a haemostatic agent with direct pressure and pack the wound if required",
+          "Elevate the casualty's limb only",
+          "Cover the wound loosely and evacuate immediately"
+        ],
+        correct: 1, // B
+        explanation: "For wounds not amenable to tourniquet placement, including junctional injuries, apply a topical haemostatic agent with direct pressure and pack the wound if necessary."
+      },
+      {
+        id: 5,
+        question: "Which combination is MOST suggestive of hypovolaemic or haemorrhagic shock?",
+        options: [
+          "Warm skin, slow pulse and normal capillary refill",
+          "Cool clammy skin, pallor and altered mental state",
+          "Warm dry skin and normal mental state",
+          "Localised pain with otherwise normal findings"
+        ],
+        correct: 1, // B
+        explanation: "Hypovolaemic shock is associated with cool, clammy skin, pallor or cyanosis, slowed capillary refill and altered consciousness."
+      },
+      {
+        id: 6,
+        question: "After applying a tourniquet, what is an important subsequent action?",
+        options: [
+          "Cover the tourniquet so that it cannot be seen",
+          "Periodically loosen the tourniquet",
+          "Record the application and continue reassessing the casualty",
+          "Remove it once the casualty reports pain"
+        ],
+        correct: 2, // C
+        explanation: "After haemorrhage control, continue reassessment and evacuation. Document the application, including the time according to local protocol. Do not periodically loosen a correctly indicated tourniquet simply because it is painful."
+      },
+      {
+        id: 7,
+        question: "What is the MOST important indicator that a haemorrhage-control intervention has been effective?",
+        options: [
+          "The casualty reports less pain",
+          "Active haemorrhage has stopped",
+          "The dressing looks clean",
+          "The casualty can move the injured limb"
+        ],
+        correct: 1, // B
+        explanation: "The immediate endpoint is cessation of active bleeding. Continue reassessing because bleeding may recur during movement or evacuation."
+      },
+      {
+        id: 8,
+        question: "Which statement about haemorrhagic shock is CORRECT?",
+        options: [
+          "Normal blood pressure always excludes significant haemorrhage",
+          "Altered mental status can occur with significant blood loss",
+          "Haemorrhagic shock only occurs after external bleeding",
+          "Pulse rate always decreases with increasing blood loss"
+        ],
+        correct: 1, // B
+        explanation: "Significant haemorrhage can produce anxiety, confusion and eventually reduced consciousness. A normal blood pressure early in the course does not necessarily exclude significant blood loss."
+      },
+      {
+        id: 9,
+        question: "SCENARIO: An EMT attends to a casualty following an explosion. The casualty has sustained a traumatic amputation of the lower leg with massive ongoing haemorrhage. What is the MOST appropriate immediate haemorrhage-control intervention?",
+        options: [
+          "Apply an appropriate tourniquet to the affected extremity",
+          "Elevate the leg and reassess after 5 minutes",
+          "Apply a loose dressing over the stump",
+          "Pack the wound and delay tourniquet application"
+        ],
+        correct: 0, // A
+        isScenario: true,
+        explanation: "This is catastrophic haemorrhage from an extremity amenable to tourniquet placement. Immediate tourniquet application is appropriate."
+      },
+      {
+        id: 10,
+        question: "SCENARIO: An EMT assesses a casualty with a deep penetrating wound at the groin. There is severe ongoing haemorrhage, but the wound is too proximal for effective application of a standard extremity tourniquet. What is the MOST appropriate intervention?",
+        options: [
+          "Apply an extremity tourniquet over the casualty's abdomen",
+          "Apply haemostatic agent, pack the wound if necessary, and maintain firm direct pressure",
+          "Cover the wound loosely and immediately transport",
+          "Elevate both legs without treating the wound"
+        ],
+        correct: 1, // B
+        isScenario: true,
+        explanation: "A groin injury is a junctional haemorrhage where a standard extremity tourniquet may not be applicable. Use a haemostatic agent, wound packing when necessary, and firm direct pressure."
+      }
+    ];
+
+    class QuizApplication {
+      constructor() {
+        this.currentIndex = 0;
+        this.userAnswers = new Array(quizData.length).fill(null);
+        this.timer = null;
+        this.secondsElapsed = 0;
+        this.webhookUrl = localStorage.getItem('saf_quiz_webhook_url') || '';
+        this.candidateInfo = { rank: '', name: '', unit: '' };
+
+        // DOM elements
+        this.startScreen = document.getElementById('start-screen');
+        this.quizScreen = document.getElementById('quiz-screen');
+        this.resultsScreen = document.getElementById('results-screen');
+        
+        this.questionText = document.getElementById('question-text');
+        this.optionsContainer = document.getElementById('options-container');
+        this.scenarioBadge = document.getElementById('scenario-badge');
+        
+        this.progressBar = document.getElementById('progress-bar');
+        this.progressText = document.getElementById('progress-text');
+        this.questionCountLabel = document.getElementById('question-count-label');
+        this.completionPercentage = document.getElementById('completion-percentage');
+        this.dotsContainer = document.getElementById('dots-container');
+        this.headerStats = document.getElementById('header-stats');
+        this.timerDisplay = document.getElementById('timer-display');
+
+        this.feedbackBox = document.getElementById('feedback-box');
+        this.feedbackTitle = document.getElementById('feedback-title');
+        this.feedbackText = document.getElementById('feedback-text');
+
+        this.prevBtn = document.getElementById('prev-btn');
+        this.nextBtn = document.getElementById('next-btn');
+        this.submitBtn = document.getElementById('submit-btn');
+
+        this.initDots();
+        this.updateWebhookStatusIndicator();
+      }
+
+      initDots() {
+        this.dotsContainer.innerHTML = '';
+        quizData.forEach((_, idx) => {
+          const dot = document.createElement('button');
+          dot.className = `w-7 h-7 rounded-full text-xs font-bold transition flex items-center justify-center border bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-500`;
+          dot.textContent = idx + 1;
+          dot.onclick = () => this.goToQuestion(idx);
+          dot.id = `dot-${idx}`;
+          this.dotsContainer.appendChild(dot);
+        });
+      }
+
+      startQuiz() {
+        const rank = document.getElementById('user-rank').value;
+        const name = document.getElementById('user-name').value.trim();
+        const unit = document.getElementById('user-unit').value.trim();
+
+        if (!rank || !name || !unit) {
+          alert('Please fill in your Rank, Full Name, and Unit before starting.');
+          return;
+        }
+
+        this.candidateInfo = { rank, name, unit };
+
+        this.startScreen.classList.add('hidden');
+        this.resultsScreen.classList.add('hidden');
+        this.quizScreen.classList.remove('hidden');
+        this.quizScreen.classList.add('flex');
+        this.headerStats.classList.remove('hidden');
+        
+        this.currentIndex = 0;
+        this.userAnswers.fill(null);
+        this.secondsElapsed = 0;
+        
+        this.startTimer();
+        this.renderQuestion();
+      }
+
+      startTimer() {
+        clearInterval(this.timer);
+        this.timer = setInterval(() => {
+          this.secondsElapsed++;
+          const mins = String(Math.floor(this.secondsElapsed / 60)).padStart(2, '0');
+          const secs = String(this.secondsElapsed % 60).padStart(2, '0');
+          this.timerDisplay.textContent = `${mins}:${secs}`;
+        }, 1000);
+      }
+
+      stopTimer() {
+        clearInterval(this.timer);
+      }
+
+      renderQuestion() {
+        const q = quizData[this.currentIndex];
+
+        // Scenario Badge
+        if (q.isScenario || q.question.startsWith("SCENARIO:")) {
+          this.scenarioBadge.classList.remove('hidden');
+        } else {
+          this.scenarioBadge.classList.add('hidden');
+        }
+
+        this.questionText.textContent = `${q.id}. ${q.question.replace('SCENARIO: ', '')}`;
+        
+        // Render Options
+        this.optionsContainer.innerHTML = '';
+        const optionPrefixes = ['A', 'B', 'C', 'D'];
+
+        const hasAnswered = this.userAnswers[this.currentIndex] !== null;
+        const selectedOption = this.userAnswers[this.currentIndex];
+
+        q.options.forEach((optText, index) => {
+          const optionBtn = document.createElement('button');
+          optionBtn.className = `w-full text-left p-4 rounded-xl border font-medium text-sm sm:text-base transition-all duration-200 flex items-start space-x-3 `;
+
+          let borderBgClasses = "border-slate-700 bg-slate-900/60 text-slate-200 hover:border-sky-500 hover:bg-slate-700/50";
+          let badgeClasses = "bg-slate-800 text-slate-400 border-slate-700";
+
+          if (hasAnswered) {
+            if (index === q.correct) {
+              borderBgClasses = "border-emerald-500 bg-emerald-950/40 text-emerald-200 font-semibold";
+              badgeClasses = "bg-emerald-600 text-white border-emerald-500";
+            } else if (index === selectedOption && selectedOption !== q.correct) {
+              borderBgClasses = "border-red-500 bg-red-950/40 text-red-200";
+              badgeClasses = "bg-red-600 text-white border-red-500";
+            } else {
+              borderBgClasses = "border-slate-800 bg-slate-900/30 text-slate-500 opacity-60";
+            }
+          } else if (selectedOption === index) {
+            borderBgClasses = "border-sky-500 bg-sky-950/40 text-white shadow-md";
+            badgeClasses = "bg-sky-600 text-white border-sky-400";
+          }
+
+          optionBtn.className += ` ${borderBgClasses}`;
+
+          optionBtn.innerHTML = `
+            <span class="w-6 h-6 rounded-md border text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 ${badgeClasses}">
+              ${optionPrefixes[index]}
+            </span>
+            <span class="flex-grow">${optText}</span>
+          `;
+
+          optionBtn.onclick = () => this.selectOption(index);
+          this.optionsContainer.appendChild(optionBtn);
+        });
+
+        // Feedback Display
+        if (hasAnswered) {
+          const isCorrect = selectedOption === q.correct;
+          this.feedbackBox.classList.remove('hidden', 'bg-emerald-950/50', 'border-emerald-500/40', 'bg-red-950/50', 'border-red-500/40');
+
+          if (isCorrect) {
+            this.feedbackBox.classList.add('bg-emerald-950/40', 'border-emerald-500/50');
+            this.feedbackTitle.className = "flex items-center space-x-2 font-bold mb-1 text-emerald-400";
+            this.feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>Correct Answer</span>`;
+          } else {
+            this.feedbackBox.classList.add('bg-red-950/40', 'border-red-500/50');
+            this.feedbackTitle.className = "flex items-center space-x-2 font-bold mb-1 text-red-400";
+            this.feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark"></i><span>Incorrect Answer</span>`;
+          }
+
+          this.feedbackText.textContent = q.explanation;
+        } else {
+          this.feedbackBox.classList.add('hidden');
+        }
+
+        this.updateProgress();
+        this.updateNavigationButtons();
+      }
+
+      selectOption(optionIndex) {
+        this.userAnswers[this.currentIndex] = optionIndex;
+        this.renderQuestion();
+      }
+
+      goToQuestion(index) {
+        this.currentIndex = index;
+        this.renderQuestion();
+      }
+
+      nextQuestion() {
+        if (this.currentIndex < quizData.length - 1) {
+          this.currentIndex++;
+          this.renderQuestion();
+        }
+      }
+
+      prevQuestion() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.renderQuestion();
+        }
+      }
+
+      updateProgress() {
+        const answeredCount = this.userAnswers.filter(a => a !== null).length;
+        const progressPercent = Math.round((answeredCount / quizData.length) * 100);
+
+        this.progressBar.style.width = `${progressPercent}%`;
+        this.progressText.textContent = `${this.currentIndex + 1} / ${quizData.length}`;
+        this.questionCountLabel.textContent = `Question ${this.currentIndex + 1} of ${quizData.length}`;
+        this.completionPercentage.textContent = `${progressPercent}% Completed`;
+
+        // Update Dots
+        quizData.forEach((_, idx) => {
+          const dot = document.getElementById(`dot-${idx}`);
+          const isAnswered = this.userAnswers[idx] !== null;
+          const isCurrent = idx === this.currentIndex;
+
+          dot.className = `w-7 h-7 rounded-full text-xs font-bold transition flex items-center justify-center border `;
+
+          if (isCurrent) {
+            dot.className += `ring-2 ring-sky-400 border-sky-400 bg-sky-600 text-white`;
+          } else if (isAnswered) {
+            dot.className += `bg-slate-700 border-slate-500 text-slate-200`;
+          } else {
+            dot.className += `bg-slate-900 border-slate-700 text-slate-500 hover:border-slate-500`;
+          }
+        });
+      }
+
+      updateNavigationButtons() {
+        this.prevBtn.disabled = this.currentIndex === 0;
+
+        if (this.currentIndex === quizData.length - 1) {
+          this.nextBtn.classList.add('hidden');
+          this.submitBtn.classList.remove('hidden');
+        } else {
+          this.nextBtn.classList.remove('hidden');
+          this.submitBtn.classList.add('hidden');
+        }
+      }
+
+      confirmSubmit() {
+        const unanswered = this.userAnswers.filter(a => a === null).length;
+        if (unanswered > 0) {
+          if (!confirm(`You still have ${unanswered} unanswered question(s). Are you sure you want to finalize your submission?`)) {
+            return;
+          }
+        }
+        this.submitQuiz();
+      }
+
+      submitQuiz() {
+        this.stopTimer();
+
+        // Calculate score
+        let score = 0;
+        quizData.forEach((q, idx) => {
+          if (this.userAnswers[idx] === q.correct) {
+            score++;
+          }
+        });
+
+        const percentage = Math.round((score / quizData.length) * 100);
+
+        // Hide Quiz Screen & Header Stats, Show Results
+        this.quizScreen.classList.remove('flex');
+        this.quizScreen.classList.add('hidden');
+        this.headerStats.classList.add('hidden');
+        this.resultsScreen.classList.remove('hidden');
+
+        // Populate Results Summary
+        document.getElementById('candidate-display-tag').textContent = `${this.candidateInfo.rank} ${this.candidateInfo.name} (${this.candidateInfo.unit})`;
+        document.getElementById('final-score').textContent = `${score} / ${quizData.length}`;
+        document.getElementById('final-percentage').textContent = `${percentage}%`;
+
+        const mins = String(Math.floor(this.secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(this.secondsElapsed % 60).padStart(2, '0');
+        const timeTakenFormatted = `${mins}:${secs}`;
+        document.getElementById('time-taken').textContent = timeTakenFormatted;
+
+        const scoreIconBox = document.getElementById('score-icon-box');
+        const resultTitle = document.getElementById('result-title');
+
+        const passed = percentage >= 80;
+
+        if (passed) {
+          scoreIconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-emerald-500/10 border-emerald-500/30 text-emerald-400";
+          scoreIconBox.innerHTML = `<i class="fa-solid fa-award"></i>`;
+          resultTitle.textContent = "Competency Achieved";
+        } else {
+          scoreIconBox.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-red-500/10 border-red-500/30 text-red-400";
+          scoreIconBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+          resultTitle.textContent = "Re-evaluation Recommended";
+        }
+
+        this.renderReviewList();
+        
+        // Auto Post to Google Sheets if Webhook is configured
+        this.sendToGoogleSheets({
+          timestamp: new Date().toLocaleString(),
+          rank: this.candidateInfo.rank,
+          name: this.candidateInfo.name,
+          unit: this.candidateInfo.unit,
+          score: score,
+          percentage: percentage,
+          timeTaken: timeTakenFormatted,
+          passed: passed,
+          answers: this.userAnswers
+        });
+      }
+
+      async sendToGoogleSheets(payload) {
+        const alertBox = document.getElementById('submission-status-alert');
+        alertBox.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-500/50', 'text-emerald-300', 'bg-amber-950/60', 'border-amber-500/50', 'text-amber-300', 'bg-red-950/60', 'border-red-500/50', 'text-red-300');
+
+        if (!this.webhookUrl) {
+          alertBox.classList.add('bg-amber-950/60', 'border-amber-500/50', 'text-amber-300');
+          alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i><span>Result saved locally. (Google Sheets Webhook not configured)</span>`;
+          return;
+        }
+
+        alertBox.classList.add('bg-slate-900', 'border-slate-700', 'text-slate-300');
+        alertBox.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-sky-400"></i><span>Submitting data to Google Sheets...</span>`;
+
+        try {
+          await fetch(this.webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors', // standard for Apps Script Web Apps
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          alertBox.className = "mt-4 p-3 rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 border bg-emerald-950/60 border-emerald-500/50 text-emerald-300";
+          alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>Result successfully transmitted to Google Sheets!</span>`;
+        } catch (err) {
+          console.error("Transmission error:", err);
+          alertBox.className = "mt-4 p-3 rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 border bg-red-950/60 border-red-500/50 text-red-300";
+          alertBox.innerHTML = `<i class="fa-solid fa-circle-exmark"></i><span>Failed to send to Google Sheets. Use 'Export Result CSV' below.</span>`;
+        }
+      }
+
+      downloadCSV() {
+        const score = this.userAnswers.reduce((acc, ans, i) => ans === quizData[i].correct ? acc + 1 : acc, 0);
+        const percentage = Math.round((score / quizData.length) * 100);
+        const mins = String(Math.floor(this.secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(this.secondsElapsed % 60).padStart(2, '0');
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Timestamp,Rank,Name,Unit,Score,Percentage,Time Taken,Passed\n";
+        csvContent += `"${new Date().toLocaleString()}","${this.candidateInfo.rank}","${this.candidateInfo.name}","${this.candidateInfo.unit}",${score},${percentage}%,${mins}:${secs},${percentage >= 80 ? 'PASSED' : 'FAILED'}\n\n`;
+        
+        csvContent += "Q#,Question,Selected Answer,Correct Answer,Status\n";
+        const prefixes = ['A', 'B', 'C', 'D'];
+        quizData.forEach((q, idx) => {
+          const userAns = this.userAnswers[idx] !== null ? prefixes[this.userAnswers[idx]] : 'N/A';
+          const correctAns = prefixes[q.correct];
+          const isCorrect = this.userAnswers[idx] === q.correct ? 'CORRECT' : 'INCORRECT';
+          csvContent += `"${idx + 1}","${q.question.replace(/"/g, '""')}","${userAns}","${correctAns}","${isCorrect}"\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `SAF_EMT_Quiz_${this.candidateInfo.name.replace(/\s+/g, '_')}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      openWebhookModal() {
+        document.getElementById('webhook-url-input').value = this.webhookUrl;
+        document.getElementById('webhook-modal').classList.remove('hidden');
+      }
+
+      closeWebhookModal() {
+        document.getElementById('webhook-modal').classList.add('hidden');
+      }
+
+      saveWebhookUrl() {
+        const url = document.getElementById('webhook-url-input').value.trim();
+        this.webhookUrl = url;
+        localStorage.setItem('saf_quiz_webhook_url', url);
+        this.updateWebhookStatusIndicator();
+        this.closeWebhookModal();
+      }
+
+      updateWebhookStatusIndicator() {
+        const dot = document.getElementById('webhook-dot');
+        const text = document.getElementById('webhook-status-text');
+
+        if (this.webhookUrl) {
+          dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+          text.textContent = "Google Sheets Webhook Connected";
+        } else {
+          dot.className = "w-2 h-2 rounded-full bg-amber-400";
+          text.textContent = "Sheets Integration: Optional Webhook Unset";
+        }
+      }
+
+        this.renderReviewList();
+      }
+
+      renderReviewList() {
+        const reviewList = document.getElementById('review-list');
+        reviewList.innerHTML = '';
+        const optionPrefixes = ['A', 'B', 'C', 'D'];
+
+        quizData.forEach((q, idx) => {
+          const userAns = this.userAnswers[idx];
+          const isCorrect = userAns === q.correct;
+
+          const item = document.createElement('div');
+          item.className = `p-4 rounded-xl border ${isCorrect ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-red-950/20 border-red-500/30'} space-y-2`;
+
+          item.innerHTML = `
+            <div class="flex items-start justify-between gap-2">
+              <span class="font-bold text-sm sm:text-base text-white">Q${idx + 1}. ${q.question}</span>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-full ${isCorrect ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-red-500/20 text-red-400 border border-red-500/40'} shrink-0">
+                ${isCorrect ? '1 / 1 Pt' : '0 / 1 Pt'}
+              </span>
+            </div>
+            <div class="text-xs space-y-1 pt-1">
+              <p class="${isCorrect ? 'text-emerald-300' : 'text-red-300'}">
+                <span class="font-semibold">Your Answer:</span> ${userAns !== null ? optionPrefixes[userAns] + '. ' + q.options[userAns] : 'Not Answered'}
+              </p>
+              ${!isCorrect ? `<p class="text-emerald-400"><span class="font-semibold">Correct Answer:</span> ${optionPrefixes[q.correct]}. ${q.options[q.correct]}</p>` : ''}
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-lg text-xs text-slate-300 border border-slate-700/50 mt-2">
+              <span class="font-bold text-sky-400">Explanation:</span> ${q.explanation}
+            </div>
+          `;
+
+          reviewList.appendChild(item);
+        });
+      }
+
+      toggleReview() {
+        const reviewSec = document.getElementById('review-section');
+        reviewSec.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      restartQuiz() {
+        this.startQuiz();
+      }
+    }
+
+    // Initialize application on window load
+    let quizApp;
+    window.onload = function() {
+      quizApp = new QuizApplication();
+    };
+  </script>
+</body>
+</html>
