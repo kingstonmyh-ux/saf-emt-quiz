@@ -327,7 +327,7 @@
         let userAnswers = [];
         let timerInterval = null;
         let secondsElapsed = 0;
-        let webhookUrl = localStorage.getItem('saf_emt_webhook_url') || '';
+        let webhookUrl = localStorage.getItem('saf_emt_webhook_url') || 'https://script.google.com/macros/s/AKfycbwBQfW7iI7KaIj4vEnUYa3OHZmTLJ0_cGhN3Vkv1QcZBnWQCw2SoX6iO0WxNoh7YG4k/exec';
 
         function startQuiz(e) {
             e.preventDefault();
